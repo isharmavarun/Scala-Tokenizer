@@ -1,0 +1,45 @@
+Program Description:
+	- The program takes a string input and tokenizes the input under different considerations.
+	- The class Tokenizer has 3 constructor arguments - separator regex, clitic regex, and an abbreviation list.
+	- Using different regexes, the program is capable of splitting up a string input.
+	- Additionally, the program also tries to converts clitics into full words.
+
+Files:
+	- tokenizer.scala
+
+How to compile:
+	- Extract the zip file into a directory.
+	- Go inside the blackjack folder to confirm the files are present.
+	- Fire up terminal or command prompt depending on the OS, and navigate to the "tokenizer" folder.
+	- Run the command "sbt" on the terminal/prompt.
+	- Enter the command "compile".
+
+How to run:
+	- Enter the command " run "<String_Input>" " from the sbt terminal to see the output.
+	- For example, run the following command:
+		run "Hello, this is a test String. Is it going to work? I don't know|Lets' see. We'll come to know. hjk..."
+
+Sample Output:
+	Hello
+	this
+	is
+	a
+	test
+	String
+	Is
+	it
+	going
+	to
+	work
+	I
+	do
+	not
+	know
+	Lets
+	see
+	We
+	will
+	come
+	to
+	know
+	hjk...
