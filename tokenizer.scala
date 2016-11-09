@@ -25,15 +25,39 @@ class Tokenizer(val separatorPattern: String, val cliticPattern: String, val abb
 	 */
 	def getCliticWord(word: String):String = {
 		var cliticMap = Map(
-			"'s" -> "has",
 			"'m" -> "am",
 			"'re" -> "are",
 			"'ve" -> "have",
 			"n't" -> "not",
 			"'d" -> "would",
-			"'ll" -> "will")
+			"'ll" -> "will",
+			"'M" -> "AM",
+			"'RE" -> "ARE",
+			"'VE" -> "HAVE",
+			"N'T" -> "NOT",
+			"'D" -> "WOULD",
+			"'LL" -> "WILL")
+		if(word.matches("'s") || word.matches("'S") || word.matches("'d") || word.matches("'D")) {
+			return ""
+		}
 		var value = cliticMap.get(word)
-		value.get
+		return value.get
+	}
+
+	/**
+	  Gets the abbreviation fullform
+	 */
+	def getFullWord(word: String):String = {
+		var fullWordMap = Map(
+			"Dr." -> "Doctor",
+			"Mr." -> "Mister",
+			"Mrs." -> "Missus")
+		if(fullWordMap.contains(word)) {
+			var value = fullWordMap.get(word)
+			return value.get
+		}else {
+			return ""
+		}
 	}
 
 	/**
@@ -77,16 +101,29 @@ class Tokenizer(val separatorPattern: String, val cliticPattern: String, val abb
 					if(word.endsWith(".") && !abbreviationList.contains(word) && word.matches("[a-zA-Z]+.") && !isConsonant(word)) {
 						val periodPos = word.indexOf(".")
 						tempList = tempList :+ word.substring(0, periodPos)
+						tempList = tempList :+ "."
+						flag = true
+					}
+
+					if(abbreviationList.contains(word)) {
+						val fullWord = getFullWord(word)
+						if(!fullWord.equals("")) {
+							tempList = tempList :+ getFullWord(word)
+						}
 						flag = true
 					}
 
 					//Check if word contains a clitic
 					if(word.contains("'") && word.length > 1) {
-						tempList = tempList :+ getCliticWord(word)
+						val cliticWord = getCliticWord(word)
+						if(!cliticWord.equals("")) {
+							tempList = tempList :+ getCliticWord(word)
+						}
 						flag = true
 					}
 
-					if(!flag && !word.matches("[~!?|@#$%^&*()_+{}\".,:;\']+$")) {
+					//if(!flag && !word.matches("[~!?|@#$%^&*()_+{}\".,:;\']+$")) {
+					if(!flag) {
 						tempList = tempList :+ word
 					}
 		}
@@ -103,7 +140,7 @@ object Tokenizer {
 		val t = new Tokenizer(separatorPattern, cliticPattern, abbreviationList)
 		if(args.length == 1) {
 			val list = t.tokenize(args(0))
-			//val list = t.tokenize("Hello, this is a test String. Is it going to work? I don't know|Lets' see. We'll come to know. hjk...")
+			//val list = t.tokenize("Hello, Mr. Test, this is a test String. Is it going to work? I don't know|Let's see. We'll come to know. hjk...")
 			list.foreach(println)
 		}
 	}

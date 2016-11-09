@@ -2,7 +2,8 @@ Program Description:
 	- The program takes a string input and tokenizes the input under different considerations.
 	- The class Tokenizer has 3 constructor arguments - separator regex, clitic regex, and an abbreviation list.
 	- Using different regexes, the program is capable of splitting up a string input.
-	- Additionally, the program also tries to converts clitics into full words.
+	- Additionally, the program also tries to converts clitics and abbreviations into full words.
+	- The code is restricted to a few clitic and abbreviation mappings and might not be able to handle all clitics and abbreviations.
 
 Files:
 	- tokenizer.scala
@@ -17,29 +18,38 @@ How to compile:
 How to run:
 	- Enter the command " run "<String_Input>" " from the sbt terminal to see the output.
 	- For example, run the following command:
-		run "Hello, this is a test String. Is it going to work? I don't know|Lets' see. We'll come to know. hjk..."
+		run "Hello, Mr. Test, this is a test String. Is it going to work? I don't know|Let's see. We'll come to know. hjk..."
 
 Sample Output:
 	Hello
+	,
+	Mister
+	Test
+	,
 	this
 	is
 	a
 	test
 	String
+	.
 	Is
 	it
 	going
 	to
 	work
+	?
 	I
 	do
 	not
 	know
-	Lets
+	|
+	Let
 	see
+	.
 	We
 	will
 	come
 	to
 	know
+	.
 	hjk...
